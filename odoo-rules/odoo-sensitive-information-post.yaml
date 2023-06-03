@@ -1,0 +1,16 @@
+rules:
+  - id: odoo-sensitive-information-post
+    metadata:
+      OWASP A-02: CWE-201
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $REQUEST.post(...,data=$VALUE, ...)
+      - metavariable-pattern:
+          metavariable: $VALUE
+          patterns:
+            - pattern: password|passwd|key|pass
+    message: Insertion of Sensitive Information Into Sent Data
+    languages:
+      - python
+    severity: WARNING

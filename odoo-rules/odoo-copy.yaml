@@ -1,0 +1,13 @@
+rules:
+  - id: odoo-copy
+    metadata:
+      OWASP:
+        - A03 Injection
+        - A01 broken acess control
+    pattern: request.params.copy(...)
+    message: copy can potentially create security vulnerabilities if the copied
+      dictionary is not properly sanitized or validated before being used in
+      further processing
+    languages:
+      - python
+    severity: WARNING

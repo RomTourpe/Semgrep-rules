@@ -1,0 +1,13 @@
+rules:
+  - id: odoo-false-sanitize-attributes
+    metadata:
+      OWASP: A03 INJECTION
+    patterns:
+      - pattern-either:
+          - pattern-regex: \bsanitizes*=\s*False
+          - pattern-regex: \bsanitize\_attributes\s*=\s*False
+          - pattern-regex: \bsanitize\_form\s*=\s*False
+    message: IT IS IMPORTANT TO SANITIZE VALUES WHEN COMMING FROM OUTSIDE
+    languages:
+      - python
+    severity: WARNING

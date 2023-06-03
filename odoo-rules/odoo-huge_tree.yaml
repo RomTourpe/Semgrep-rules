@@ -1,0 +1,10 @@
+rules:
+  - id: odoo-huge_tree
+    metadata:
+      OWASP: A05 SECURITY MISCONFIGURATION
+    pattern: huge_tree
+    message: potential security risks, such as XML bomb attacks or other resource
+      exhaustion attacks when using huge_tree.
+    languages:
+      - python
+    severity: WARNING

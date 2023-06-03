@@ -1,0 +1,43 @@
+rules:
+  - id: odoo-cr_execute
+    metadata:
+      OWASP: A03 INJECTION
+      CWE: CWE-89 sql injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $CONNECTION.execute( $SQL + $VAL , ... )
+          - pattern: |
+              $CONNECTION.execute( $SQL % $VAL , ...)
+          - pattern: |
+              $CONNECTION.execute( $SQL.format($VAL), ... )
+          - pattern: |
+              cr.execute( $SQL.format($VAL), ... )
+          - patterns:
+              - pattern-inside: |
+                  $QUERY = $SQL + $VAL
+                  ...
+              - pattern: |
+                  $CONNECTION.execute($QUERY, ...)
+          - patterns:
+              - pattern-inside: |
+                  $QUERY = $SQL % $VAL
+                  ...
+              - pattern: |
+                  $CONNECTION.execute($QUERY, ...)
+          - patterns:
+              - pattern-inside: |
+                  $QUERY = $SQL.format($VAL)
+                  ...
+              - pattern: |
+                  $CONNECTION.execute($QUERY, ...)
+          - patterns:
+              - pattern-inside: |
+                  $QUERY = f"...{...}..."
+                  ...
+              - pattern: |
+                  $CONNECTION.execute($QUERY, ...) 
+    message: EXECUTE IS SENSITIVE TO SQL INJECTION WHEN USED WITH INPUTS
+    languages:
+      - python
+    severity: WARNING

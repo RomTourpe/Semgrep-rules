@@ -1,0 +1,12 @@
+rules:
+  - id: odoo-handle-requests-separately-from-other-risky-modules
+    metadata:
+      OWASP: A03 INJECTION
+      CWE: CWE-79
+    patterns:
+      - pattern-regex: \bfrom\s+requests\b.*\bimport\b|\brequests\.\s*[a-z]+
+      - pattern-not-regex: \brequests\.exceptions
+    message: REQUESTS CAN LEAD TO XSS WITH UNVERIFIED URL
+    languages:
+      - python
+    severity: WARNING

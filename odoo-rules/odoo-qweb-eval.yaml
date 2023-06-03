@@ -1,0 +1,23 @@
+rules:
+  - id: odoo-qweb-eval
+    metadata:
+      OWASP:
+        - A03 INJECTION
+        - A01 BROKEN ACCESS CONTROL
+      CWE:
+        - CWE-79
+        - CWE-200
+    patterns:
+      - pattern-either:
+          - pattern-regex: _?qcontext
+          - pattern-regex: _?eval_context
+      - pattern-not-regex: def\s[a-zA-Z0-9\_]*_qcontext
+      - pattern-not-regex: def\s[a-zA-Z0-9\_]*_eval_context
+      - pattern-not-regex: \bminimal_qcontext
+      - pattern-not-regex: \bminimal_eval_context
+    message: >
+      THE CONTEXT IS NOT THE MINIMAL BE CAREFUL WHEN ADDING MORE CONTEXT IN
+      EVALUATION
+    languages:
+      - python
+    severity: WARNING

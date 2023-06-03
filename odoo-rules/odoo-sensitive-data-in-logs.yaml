@@ -1,0 +1,17 @@
+rules:
+  - id: odoo-sensitive-data-in-logs
+    metadata:
+      OWASP:
+        - A04-2021  Unsecured design
+      CWE:
+        - cwe-209 and cwe-256
+    pattern: |
+      try:
+        ...
+      except psycopg2.$ERRORMSG as $ERROR:
+        ...
+        print(...,$ERROR)
+    message: INFORMATION ABOUT DB PROVIDED IN ERROR LOGS
+    languages:
+      - python
+    severity: WARNING

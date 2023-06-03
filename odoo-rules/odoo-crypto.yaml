@@ -1,0 +1,20 @@
+rules:
+  - id: odoo-crypto
+    metadata:
+      OWASP: A-02 cryptographic failures
+      CWE: CWE-327
+    pattern-either:
+      - pattern: md5
+      - pattern: sha1
+      - pattern: hmac
+      - pattern: hashlib
+      - pattern: cryptography
+      - pattern: OpenSSL
+      - pattern: des
+      - pattern: arc4
+      - pattern: DES
+      - pattern: ARC4
+    message: WARNING WHEN USING DEPRECATED CRYPTO FUNCTION
+    languages:
+      - python
+    severity: WARNING

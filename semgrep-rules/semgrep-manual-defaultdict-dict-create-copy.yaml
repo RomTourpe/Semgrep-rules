@@ -1,0 +1,28 @@
+rules:
+  - id: semgrep-manual-defaultdict-dict-create-copy
+    message: manually creating a defaultdict - use collections.defaultdict(dict)
+    languages:
+      - python
+    severity: WARNING
+    pattern-either:
+      - pattern: |
+          $DICT = {}
+          ...
+          for $KEY, $VALUE in $OTHERDICT.items():
+              ...
+              if $KEY not in $DICT:
+                  ...
+                  $DICT[$KEY] = {}
+                  ...
+              $DICT[$KEY].update(...)
+      - pattern: |
+          $DICT = {}
+          ...
+          for $KEY, $VALUE in $OTHERDICT.items():
+              ...
+              $DICT.setdefault($KEY, {}).update(...)
+    metadata:
+      category: best-practice
+      technology:
+        - python
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]

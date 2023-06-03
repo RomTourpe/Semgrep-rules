@@ -1,0 +1,14 @@
+rules:
+  - id: odoo-external-control-of-file-name-or-path
+    metadata:
+      OWASP A03: cwe-73
+    patterns:
+      - pattern: open($INPUT,...)
+      - metavariable-pattern:
+          metavariable: $INPUT
+          patterns:
+            - pattern-not-regex: ^[a-zA-Z0-9_\-\."]+$
+    message: THE PATH IS NOT SANITIZED CORRECTLY
+    languages:
+      - python
+    severity: WARNING

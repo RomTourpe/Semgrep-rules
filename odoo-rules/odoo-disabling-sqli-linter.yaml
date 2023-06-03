@@ -1,0 +1,7 @@
+rules:
+  - id: odoo-disabling-sqli-linter
+    pattern-regex: pylint\s*:\s*disable.*=sql-injection
+    message: Disabling the SQLi linter is highly suspect
+    languages:
+      - python
+    severity: WARNING

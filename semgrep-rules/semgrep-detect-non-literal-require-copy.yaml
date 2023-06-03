@@ -1,0 +1,28 @@
+rules:
+  - id: semgrep-detect-non-literal-require-copy
+    message: This rule is deprecated.
+    metadata:
+      cwe:
+        - "CWE-95: Improper Neutralization of Directives in Dynamically
+          Evaluated Code ('Eval Injection')"
+      owasp:
+        - A03:2021 - Injection
+      source-rule-url: https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-non-literal-require.js
+      references:
+        - https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-non-literal-require.js
+      category: security
+      technology:
+        - javascript
+      subcategory:
+        - audit
+      likelihood: LOW
+      impact: LOW
+      confidence: LOW
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]
+    languages:
+      - javascript
+      - typescript
+    severity: WARNING
+    patterns:
+      - pattern: a()
+      - pattern: b()

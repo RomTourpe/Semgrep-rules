@@ -1,0 +1,16 @@
+rules:
+  - id: odoo-t-raw
+    metadata:
+      OWASP:
+        - A03-2021 INJECTION
+      CWE:
+        - CWE-79 XSS
+    languages:
+      - generic
+    message: >
+      Using 't-raw' or '<t t-raw' in Odoo QWeb templates can lead to XSS
+      attacks. Make sure to validate and sanitize user input before marking it
+      as safe.
+    patterns:
+      - pattern-regex: t-raw\=?"
+    severity: WARNING

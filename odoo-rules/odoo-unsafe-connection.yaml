@@ -1,0 +1,16 @@
+rules:
+  - id: odoo-unsafe-connection
+    metadata:
+      OWASP A01:
+        - cwe-200
+        - cwe-352
+    patterns:
+      - pattern-either:
+          - pattern: http.route(...,csrf= False,...)
+          - pattern: $APP.config['WTF_CSRF_ENABLED'] = False
+      - pattern-not: http.route(...,csrf=False,...,auth='public',...)
+      - pattern-not: http.route(...,csrf=False,...,auth='none',...)
+    message: Semgrep found a match
+    languages:
+      - python
+    severity: WARNING

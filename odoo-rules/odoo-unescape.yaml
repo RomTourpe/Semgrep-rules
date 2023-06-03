@@ -1,0 +1,12 @@
+rules:
+  - id: odoo-unescape
+    metadata:
+      cwe:
+        - " CWE-79: XSS"
+      owasp:
+        - A03:2021 - Injection
+    pattern-regex: unescape\b
+    message: Use of unescape (unsafe practice...)
+    languages:
+      - python
+    severity: WARNING

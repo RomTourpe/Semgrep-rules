@@ -1,0 +1,26 @@
+rules:
+  - id: odoo-kn64kbnw
+    metadata:
+      OWASP:
+        - A03 INJECTION
+        - A05 SECURITY MISCONFIGURATION
+    patterns:
+      - pattern-either:
+          - pattern: setattr
+          - pattern: __getattribute__
+          - pattern: attrgetter
+          - pattern: resolve_attr
+          - patterns:
+              - pattern: getattr(...)
+              - pattern-inside: |
+                  $ITERABLE = [...]
+                  ...
+              - pattern-inside: |
+                  for $VAR in $ITERABLE:
+                    ...        
+              - pattern-not: getattr(..., '...' % $VAR,...)
+              - pattern-not: getattr(...,$VAR,...)
+    message: WARNING WHEN USING ATTRIBUTES WITH INPUTS
+    languages:
+      - python
+    severity: WARNING

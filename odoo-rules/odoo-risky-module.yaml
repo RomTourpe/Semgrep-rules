@@ -1,0 +1,63 @@
+rules:
+  - id: odoo-risky-module
+    metadata:
+      OWASP: -A01 BROKEN ACCESS CONTROL
+      CWE:
+        - CWE-676: Use of Potentially Dangerous Function.
+    patterns:
+      - pattern-either:
+          - pattern-regex: \bos\.
+          - pattern-regex: \bsys\.
+          - pattern-regex: \bzipfile\.
+          - pattern-regex: \btempfile\.
+          - pattern-regex: \btarfile\.
+          - pattern-regex: \bpathlib\.
+          - pattern-regex: \bctypes\.
+          - pattern-regex: \burllib\.
+      - pattern-not-regex: zipfile\.is\_zipfile
+      - pattern-not-regex: zipfile\.BadZipfile
+      - pattern-not-regex: zipfile\.ZIP\_DEFLATED
+      - pattern-not-regex: os\.path\.realpath\([^\)]+\)
+      - pattern-not-regex: os\.path\.exists\([^\)]+\)
+      - pattern-not-regex: os\.path\.isdir\([^\)]+\)
+      - pattern-not-regex: os\.urandom
+      - pattern-not-regex: os\.path\.splitext
+      - pattern-not-regex: os\.sep
+      - pattern-not-regex: os\.path\.sep
+      - pattern-not-regex: os\.path\.altsep
+      - pattern-not-regex: os\.altsep
+      - pattern-not-regex: os\.walk
+      - pattern-not-regex: os\.path\.normpath
+      - pattern-not-regex: os\.path\.relpath
+      - pattern-not-regex: os\.path\.dirname
+      - pattern-not-regex: os\.path\.join
+      - pattern-not-regex: os\.path\.abspath
+      - pattern-not-regex: os\.access
+      - pattern-not-regex: os\.path\.isfile
+      - pattern-not-regex: os\.path\.basename
+      - pattern-not-regex: os\.path\.abspath
+      - pattern-not-regex: os\.path\.expanduser
+      - pattern-not-regex: os\.path\.expandvars
+      - pattern-not-regex: os\.close
+      - pattern-not-regex: from\s*os\.
+      - pattern-not-regex: os\.listdir
+      - pattern-not-regex: import\s*os\.
+      - pattern-not-regex: sys\.exit
+      - pattern-not-regex: import\s*sys\.
+      - pattern-not-regex: sys\.modules\['[^']+'\]
+      - pattern-not-regex: from\s*sys\.
+      - pattern-not-regex: sys\.arg\[0\]
+      - pattern-not-regex: sys\.stderr\(
+      - pattern-not-regex: sys\.stderr\.write\("[^']+"\)
+      - pattern-not-regex: \.join\(pathlib\.Path\([^\)]+\)\.suffixes\)
+      - pattern-not: pathlib.$OBJECT.suffixes
+      - pattern-not-regex: \(?pathlib\.Path\([^\)]+\)\.suffixes\)?
+      - pattern-not-regex: urllib\.parse\.quote\(request\.httprequest\.full\_path\)
+      - pattern-not-regex: import\s*urllib\.
+      - pattern-not-regex: tempfile\.mkstemp
+      - pattern-not-regex: tempfile\.NamedTemporaryFile
+      - pattern-not-regex: tempfile\.TemporaryFile
+    message: USE OF RISKY MODULE DETECTED BE CAREFUL WITH USER'S INPUTS
+    languages:
+      - python
+    severity: WARNING

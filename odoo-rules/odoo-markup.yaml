@@ -1,0 +1,16 @@
+rules:
+  - id: odoo-markup
+    metadata:
+      OWASP: A03 INJECTION
+      CWE: CWE-79
+    patterns:
+      - pattern-not-inside: |
+          from markupsafe import $O
+          ...
+      - pattern: Markup (...)
+    message: Always validate user input Ensure that the input meets the expected
+      format, length, and range. Reject any input that doesn't match these
+      criteria.
+    languages:
+      - python
+    severity: WARNING

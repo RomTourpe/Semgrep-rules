@@ -1,0 +1,22 @@
+rules:
+  - id: semgrep-pass-body-fn-copy
+    patterns:
+      - pattern-not-inside: |
+          def __init__(self, ...):
+              ...
+      - pattern-not-inside: |
+          class $A:
+               ...
+      - pattern: |
+          def $X(...):
+              pass
+    message: "`pass` is the body of function $X. Consider removing this or raise
+      NotImplementedError() if this is a TODO"
+    languages:
+      - python
+    severity: WARNING
+    metadata:
+      category: best-practice
+      technology:
+        - python
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]

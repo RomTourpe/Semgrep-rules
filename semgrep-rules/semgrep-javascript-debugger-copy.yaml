@@ -1,0 +1,13 @@
+rules:
+  - id: semgrep-javascript-debugger-copy
+    pattern: debugger;
+    message: found debugger call; should this be in production code?
+    languages:
+      - javascript
+      - typescript
+    severity: WARNING
+    metadata:
+      category: best-practice
+      technology:
+        - javascript
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]

@@ -1,0 +1,20 @@
+rules:
+  - id: odoo-module-open
+    metadata:
+      OWASP:
+        - A03 INJECTION
+        - A05 SECURITY MISCONFIGURATION
+      CWE:
+        - CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site
+            Scripting')
+        - CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path
+            Traversal')
+    pattern-either:
+      - pattern: $OBJECT.open(...)
+      - pattern: open(...)
+      - pattern: send_file(...)
+      - pattern: from_path(...)
+    message: MANIPULATION OF FILE CAN BE DANGEROUS
+    languages:
+      - python
+    severity: WARNING

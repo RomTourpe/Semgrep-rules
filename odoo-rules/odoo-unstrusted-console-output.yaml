@@ -1,0 +1,27 @@
+rules:
+  - id: odoo-unstrusted-console-output
+    patterns:
+      - pattern-either:
+          - patterns:
+              - pattern-either:
+                  - pattern: $CONNECTION.$PRINT("..." + $VALUE)
+                  - pattern: $CONNECTION.$PRINT("..." % $VALUE)
+              - metavariable-pattern:
+                  metavariable: $PRINT
+                  patterns:
+                    - pattern-regex: error|log|debug|warn|warning
+          - patterns:
+              - pattern-either:
+                  - pattern: $CONNECTION.error($CONTENT)
+                  - pattern: $CONNECTION.log($CONTENT)
+                  - pattern: $CONNECTION.debug($CONTENT)
+                  - pattern: $CONNECTION.warn($CONTENT)
+                  - pattern: $CONNECTION.warning($CONTENT)
+              - metavariable-pattern:
+                  metavariable: $CONTENT
+                  patterns:
+                    - pattern-regex: \berror\b|\blog\b|\bdebug\b|\bwarn\b|\bwarning\b|\be\b|\berr\b|\bcontent\b
+    message: The output might contain sensitive information
+    languages:
+      - javascript
+    severity: WARNING

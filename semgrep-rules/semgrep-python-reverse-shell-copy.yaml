@@ -1,0 +1,34 @@
+rules:
+  - id: semgrep-python-reverse-shell-copy
+    patterns:
+      - pattern-either:
+          - pattern: pty.spawn("$BINPATH",...)
+          - pattern: subprocess.call(["$BINPATH",...],...)
+      - metavariable-regex:
+          metavariable: $BINPATH
+          regex: /bin/.*?sh\b
+      - pattern-inside: |
+          import socket
+          ...
+          $S = socket.socket(...)
+          ...
+          $S.connect(($IP,$PORT),...)
+          ...
+    message: Semgrep found a Python reverse shell using $BINPATH to $IP at $PORT
+    metadata:
+      cwe:
+        - "CWE-553: Command Shell in Externally Accessible Directory"
+      category: security
+      technology:
+        - python
+      references:
+        - https://cwe.mitre.org/data/definitions/553.html
+      subcategory:
+        - audit
+      likelihood: LOW
+      impact: MEDIUM
+      confidence: LOW
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]
+    languages:
+      - python
+    severity: WARNING

@@ -1,0 +1,28 @@
+rules:
+  - id: odoo-safe_eval
+    metadata:
+      OWASP: -A03 INJECTION -A01 BROKEN ACCESS CONTROL
+      CWE: -CWE-200
+    patterns:
+      - pattern-not: $OBJECT.safe_eval(...,self._get_eval_context(),...)
+      - pattern-not: safe_eval(...,self._get_eval_context(),...)
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: safe_eval(...)
+          - pattern: $OBJECT.safe_eval(...)
+          - pattern: |
+              def _get_eval_context(...):
+                ...
+      - pattern-not-inside: |
+          $VAL = self.env[...].$ANYTHING(...)
+          ...
+          $OBJECT.safe_eval(...,{...,'...': $VAL,...},...)
+      - pattern-not-inside: |
+          $VAL = self.env[...].$ANYTHING(...)
+          ...
+          safe_eval(...,{...,'...': $VAL,...},...)
+    message: The use of safe_eval can be dangerous with unsanitized input or with
+      not enough protected environment.
+    languages:
+      - python
+    severity: WARNING

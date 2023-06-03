@@ -1,0 +1,28 @@
+rules:
+  - id: semgrep-http-not-https-connection-copy
+    message: Detected HTTPConnectionPool. This will transmit data in cleartext. It
+      is recommended to use HTTPSConnectionPool instead for to encrypt
+      communications.
+    metadata:
+      cwe:
+        - "CWE-319: Cleartext Transmission of Sensitive Information"
+      owasp:
+        - A03:2017 - Sensitive Data Exposure
+        - A02:2021 - Cryptographic Failures
+      references:
+        - https://urllib3.readthedocs.io/en/1.2.1/pools.html#urllib3.connectionpool.HTTPSConnectionPool
+      category: security
+      technology:
+        - python
+      subcategory:
+        - audit
+      likelihood: MEDIUM
+      impact: MEDIUM
+      confidence: MEDIUM
+      license: Commons Clause License Condition v1.0[LGPL-2.1-only]
+    languages:
+      - python
+    severity: ERROR
+    pattern-either:
+      - pattern: urllib3.HTTPConnectionPool(...)
+      - pattern: urllib3.connectionpool.HTTPConnectionPool(...)

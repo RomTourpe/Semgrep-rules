@@ -1,0 +1,41 @@
+rules:
+  - id: odoo-jwt-hardcoded
+    metadata:
+      OWASP: A-02:Cryptgraphic failures
+      CWE: CWE-259
+    patterns:
+      - pattern-either:
+          - pattern: import jwt
+          - pattern: from jwt import $ANYTHING
+          - pattern: |
+              def $FUNC(..., password="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., pwd="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., passwd="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., pswd="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., passwrd="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., passkey="...", ...):
+                ...
+          - pattern: |
+              def $FUNC(..., secret="...", ...):
+                ...
+          - patterns:
+              - pattern: |
+                  jwt.encode($X, $SECRET, ...)
+              - focus-metavariable: $SECRET
+              - pattern: |
+                  "..."
+    message: USE OF JWT IS DANGEROUS AND WRITTING PASSWORD IN RAW IN FUNC DEF IS A
+      BAD PRACTICE
+    languages:
+      - python
+    severity: WARNING
